@@ -1,4 +1,4 @@
-# EVM-LITE
+# EVM
 
 [![CircleCI](https://circleci.com/gh/mosaicnetworks/evm-lite.svg?style=svg)](https://circleci.com/gh/Kdag-K/evm)
 [![Go Report](https://goreportcard.com/badge/github.com/Kdag-K/evm)](https://goreportcard.com/report/github.com/Kdag-K/evm)
