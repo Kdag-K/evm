@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/mosaicnetworks/evm-lite/src/state"
+	"github.com/Kdag-K/evm/src/state"
 	"github.com/sirupsen/logrus"
 )
 
