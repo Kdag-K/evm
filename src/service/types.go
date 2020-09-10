@@ -15,12 +15,6 @@ type JSONAccount struct {
 	Code    string            `json:"bytecode,omitempty"`
 }
 
-/* // This is unused. Commented out pending deletion
-type JSONAccountList struct {
-	Accounts []JSONAccount `json:"accounts"`
-}
-*/
-
 // SendTxArgs represents the arguments to sumbit a new transaction into the transaction pool.
 type SendTxArgs struct {
 	From     common.Address  `json:"from"`
@@ -47,9 +41,3 @@ type JSONContract struct {
 	Address common.Address `json:"address"`
 	ABI     string         `json:"abi"`
 }
-
-/* //Not used. Commented out, pending deletion.
-type JSONContractList struct {
-	Contracts []JSONContract `json:"contracts"`
-}
-*/
