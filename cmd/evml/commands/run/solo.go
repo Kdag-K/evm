@@ -60,4 +60,36 @@ func NewSoloCmd() *cobra.Command {
 	return cmd
 }
 
+func createGenesis(genesisFile, genesisAddr string) error {
+
+	if _, err := os.Stat(genesisFile); err == nil {
+		logger.WithError(err).Error("Genesis file already exists. Cannot overwrite.")
+		return err
+	}
+
+	t := template.New("genesis")
+	t, err := t.Parse(genesisTemplate) // parsing of template string
+	if err != nil {
+		logger.WithError(err).Error("Parsing genesis template")
+		return err
+	}
+
+	genDir := filepath.Dir(genesisFile)
+	if _, err := os.Stat(genDir); os.IsNotExist(err) {
+		err = os.MkdirAll(genDir, 0755)
+		if err != nil {
+			logger.WithError(err).Error("Creating base directory of genesis file")
+			return err
+		}
+	}
+
+	f, err := os.OpenFile(genesisFile, os.O_RDWR|os.O_CREATE, 0666)
+	if err != nil {
+		logger.WithError(err).Errorf("Creating file %s", genesisFile)
+		return err
+	}
+
+	return t.Execute(f, genesisAddr)
+}
+
 
