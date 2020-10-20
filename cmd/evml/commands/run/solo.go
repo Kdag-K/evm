@@ -92,4 +92,15 @@ func createGenesis(genesisFile, genesisAddr string) error {
 	return t.Execute(f, genesisAddr)
 }
 
+func runSolo(cmd *cobra.Command, args []string) error {
 
+	solo := solo.NewSolo(logger)
+	engine, err := engine.NewEngine(*config, solo)
+	if err != nil {
+		return fmt.Errorf("Error building Engine: %s", err)
+	}
+
+	engine.Run()
+
+	return nil
+}
