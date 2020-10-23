@@ -60,6 +60,39 @@ func init() {
 }
 
 //------------------------------------------------------------------------------
+//Retrieve the default environment configuration.
+func parseConfig() (*_config.Config, error) {
+	conf := _config.DefaultConfig()
+	err := viper.Unmarshal(conf)
+	if err != nil {
+		return nil, err
+	}
+	return conf, err
+}
+
+//Bind all flags and read the config into viper
+func bindFlagsLoadViper(cmd *cobra.Command) error {
+	// cmd.Flags() includes flags from this command and all persistent flags from the parent
+	if err := viper.BindPFlags(cmd.Flags()); err != nil {
+		return err
+	}
+
+	viper.SetConfigName("evml")         // name of config file (without extension)
+	viper.AddConfigPath(config.DataDir) // search root directory
+
+	// If a config file is found, read it in.
+	if err := viper.ReadInConfig(); err == nil {
+		// stderr, so if we redirect output to json file, this doesn't appear
+		logger.Debugf("Using config file: %s", viper.ConfigFileUsed())
+	} else if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+		logger.Debugf("No config file found in %s", config.DataDir)
+	} else {
+
+		return err
+	}
+
+	return nil
+}
 
 func logLevel(l string) logrus.Level {
 	switch l {
