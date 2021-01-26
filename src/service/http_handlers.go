@@ -12,11 +12,11 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethTypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/mosaicnetworks/evm-lite/src/state"
-	"github.com/mosaicnetworks/evm-lite/src/version"
+	"github.com/Kdag-k/evm/src/state"
+	"github.com/Kdag-k/evm/src/version"
 	"github.com/sirupsen/logrus"
 
-	comm "github.com/mosaicnetworks/evm-lite/src/common"
+	comm "github.com/Kdag-k/evm/src/common"
 )
 
 /*
