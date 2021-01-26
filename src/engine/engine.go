@@ -6,7 +6,7 @@ import (
 	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/Kdag-K/evm/src/config"
 	"github.com/Kdag-K/evm/src/consensus"
-	"github.com/Kdaga-K/evm/src/currency"
+	"github.com/Kdag-K/evm/src/currency"
 	"github.com/Kdag-K/evm/src/service"
 	"github.com/Kdag-K/evm/src/state"
 )
