@@ -25,20 +25,12 @@ var (
 
 // Config contains de configuration for an EVM-Lite node
 type Config struct {
+	// Megabytes of memory allocated to internal caching (min 16MB / database
+	// forced)
+	Cache int `mapstructure:"cache"`
+
 	// Top-level directory of evm-babble data
 	DataDir string `mapstructure:"datadir"`
-
-	// Debug, info, warn, error, fatal, panic
-	LogLevel string `mapstructure:"log"`
-
-	// Genesis file
-	Genesis string `mapstructure:"genesis"`
-
-	// Location of ethereum account keys
-	Keystore string `mapstructure:"keystore"`
-
-	// File containing passwords to unlock ethereum accounts
-	PwdFile string `mapstructure:"pwd"`
 
 	// File containing the levelDB database
 	DbFile string `mapstructure:"db"`
@@ -46,14 +38,22 @@ type Config struct {
 	// Address of HTTP API Service
 	EthAPIAddr string `mapstructure:"listen"`
 
-	// Megabytes of memory allocated to internal caching (min 16MB / database
-	// forced)
-	Cache int `mapstructure:"cache"`
+	// Genesis file
+	Genesis string `mapstructure:"genesis"`
+
+	// Location of ethereum account keys
+	Keystore string `mapstructure:"keystore"`
+
+	// Debug, info, warn, error, fatal, panic
+	LogLevel string `mapstructure:"log"`
+
+	logger *logrus.Logger
 
 	// Minimum gasprice for transactions submitted through this node's service
 	MinGasPrice string `mapstructure:"min-gas-price"`
 
-	logger *logrus.Logger
+	// File containing passwords to unlock ethereum accounts
+	PwdFile string `mapstructure:"pwd"`
 }
 
 // DefaultConfig returns the default configuration for an EVM-Lite node
