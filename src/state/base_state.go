@@ -180,7 +180,7 @@ func (bs *BaseState) Reset(root common.Hash) error {
 // Commit commits everything to the underlying database
 func (bs *BaseState) Commit() (common.Hash, error) {
 	bs.Lock()
-	bs.Unlock()
+	defer bs.Unlock()
 
 	root, err := bs.stateDB.Commit(true)
 	if err != nil {
@@ -189,8 +189,10 @@ func (bs *BaseState) Commit() (common.Hash, error) {
 
 	// FORCE DISK WRITE
 	// Apparenty Geth does something smarter here, but can't figure it out
-	bs.stateDB.Database().TrieDB().Commit(root, true)
-
+	err = bs.stateDB.Database().TrieDB().Commit(root, true)
+	if err != nil{
+		return root,err
+	}
 	return root, nil
 }
 
