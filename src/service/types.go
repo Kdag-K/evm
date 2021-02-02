@@ -14,7 +14,13 @@ type JSONAccount struct {
 	Storage map[string]string `json:"storage,omitempty"`
 	Code    string            `json:"bytecode,omitempty"`
 }
-
+type JSONAccountKdag struct {
+	Address  string            `json:"address"`
+	Balance  *big.Int          `json:"balance"`
+	Nonce    uint64            `json:"nonce"`
+	Storage  map[string]string `json:"storage,omitempty"`
+	ByteCode string            `json:"bytecode,omitempty"`
+}
 // SendTxArgs represents the arguments to sumbit a new transaction into the transaction pool.
 type SendTxArgs struct {
 	From     common.Address  `json:"from"`
