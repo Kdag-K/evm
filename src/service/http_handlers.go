@@ -64,6 +64,17 @@ func accountHandler(w http.ResponseWriter, r *http.Request, m *Service) {
 	if code == "0x" {
 		code = ""
 	}
+	kdagAccount := JSONAccountKdag{
+		Address:  address.Hex(),
+		Balance:  balance,
+		Nonce:    nonce,
+		ByteCode: code,
+	}
+	_, err := json.Marshal(kdagAccount)
+	if err != nil {
+		m.logger.WithError(err).Error("Marshaling JSON response")
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 
 	account := JSONAccount{
 		Address: address.Hex(),
