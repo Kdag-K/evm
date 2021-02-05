@@ -3,7 +3,7 @@ module github.com/Kdag-K/evm
 go 1.15
 
 require (
-	github.com/Kdag-k/evm v0.0.0-20201023010420-9387f3fcd2f1
+	github.com/Kdag-K/evm v0.0.0-20201023010420-9387f3fcd2f1
 	github.com/allegro/bigcache v1.2.1 // indirect
 	github.com/aristanetworks/goarista v0.0.0-20210107181124-fad53805024e // indirect
 	github.com/btcsuite/btcd v0.21.0-beta // indirect
