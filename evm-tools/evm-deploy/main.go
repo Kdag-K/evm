@@ -33,5 +33,17 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	
+	// we need the big-endian encoded length of the code
+	bigL := big.NewInt(int64(len(contractCode)))
+	codeLengthBytes := bigL.Bytes()
+	lengthCodeLengthBytes := len(codeLengthBytes)
+
+	// store the code in memory at position 0
+	memLocation := byte(0x00)
+
+	// push the length of the code to the code
+	pushLength := append([]byte{byte(PUSH + (lengthCodeLengthBytes - 1))}, codeLengthBytes...)
+
+	// duplicate it so we can use it in both CODECOPY and RETURN
+	pushLength = append(pushLength, DUP)
 }
