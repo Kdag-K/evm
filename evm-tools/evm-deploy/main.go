@@ -46,4 +46,18 @@ func main() {
 
 	// duplicate it so we can use it in both CODECOPY and RETURN
 	pushLength = append(pushLength, DUP)
+		// make the end of the prefix: run the CODECOPY and the RETURN
+	codeCopyReturn := []byte{PUSH, memLocation, CODECOPY, PUSH, memLocation, RETURN}
+
+	// determine location of code in the deploy code
+	// XXX: assumes there is not more than 255 bytes of deploy prefix
+	codeLocation := len(pushLength) + 2 + len(codeCopyReturn)
+	if codeLocation > 255 {
+		panic("deploy code prefix longer than 255 bytes!")
+	}
+
+	//returnCode := append(append(pushLength, 0x60, byte(codeLocation)), codeCopyReturn...)
+
+	//deployCode := append(returnCode, contractCode...)
+	//fmt.Println(hex.EncodeToString(deployCode))
 }
