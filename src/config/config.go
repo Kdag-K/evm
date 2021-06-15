@@ -29,7 +29,7 @@ type Config struct {
 	// forced)
 	Cache int `mapstructure:"cache"`
 
-	// Top-level directory of evm-babble data
+	// Top-level directory of evm-kdag data
 	DataDir string `mapstructure:"datadir"`
 
 	// File containing the levelDB database
