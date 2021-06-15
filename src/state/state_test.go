@@ -195,7 +195,7 @@ func TestTransfer(t *testing.T) {
 	defer os.RemoveAll("test_data/eth/chaindata")
 
 	test := NewTest("test_data/eth", bcommon.NewTestEntry(t), t)
-	defer test.state.main.db.Close()
+	defer test.state.baseState.db.Close()
 
 	err := test.Init()
 
@@ -388,7 +388,7 @@ func TestCreateContract(t *testing.T) {
 	defer os.RemoveAll("test_data/eth/chaindata")
 
 	test := NewTest("test_data/eth", bcommon.NewTestEntry(t), t)
-	defer test.state.main.db.Close()
+	defer test.state.baseState.db.Close()
 
 	err := test.Init()
 
