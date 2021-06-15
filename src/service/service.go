@@ -48,7 +48,7 @@ func (m *Service) GetSubmitCh() chan []byte {
 	return m.submitCh
 }
 
-//SetInfoCallback the info callback. This is used to call the babble stats
+//SetInfoCallback the info callback. This is used to call the kdag stats
 //endpoint to populate the info endpoint
 func (m *Service) SetInfoCallback(f infoCallback) {
 	m.getInfo = f
