@@ -25,7 +25,7 @@ var (
 )
 
 /*
-State is the main THREAD SAFE object that manages the application-state of
+State is the baseState THREAD SAFE object that manages the application-state of
 evm-lite. It is used by the Service for read-only operations, and by the
 Consensus system to apply new transactions. It manages 3 copies of the
 underlying datastore:
@@ -33,14 +33,14 @@ underlying datastore:
 1) it's own state, which is the "official" state, that cannot be arbitrarily
    reverted.
 2) the write-ahead-state (was), where the consensus system applies transactions
-   before committing them to the main state.
+   before committing them to the baseState state.
 3) the transaction-pool's state, where the Service verifies transactions before
    submitting them to the consensus system.
 */
 type State struct {
-	main   BaseState
-	was    *WriteAheadState
-	txPool *TxPool
+	baseState BaseState
+	was       *WriteAheadState
+	txPool    *TxPool
 
 	genesisFile string
 
@@ -66,7 +66,7 @@ func NewState(dbFile string, dbCache int, genesisFile string, logger *logrus.Ent
 	)
 
 	s := &State{
-		main:        main,
+		baseState:   main,
 		was:         NewWriteAheadState(main.Copy(), logger),
 		txPool:      NewTxPool(main.Copy(), logger),
 		genesisFile: genesisFile,
@@ -172,8 +172,8 @@ func (s *State) Commit() (common.Hash, error) {
 	}
 
 	// Reset Main
-	if err := s.main.Reset(root); err != nil {
-		s.logger.WithError(err).Error("Resetting main StateDB")
+	if err := s.baseState.Reset(root); err != nil {
+		s.logger.WithError(err).Error("Resetting baseState StateDB")
 		return root, err
 	}
 	if s.logger.Level > logrus.InfoLevel {
@@ -203,7 +203,7 @@ Config
 
 // GetGasLimit returns the gas limit set between commit calls
 func (s *State) GetGasLimit() uint64 {
-	return s.main.gasLimit
+	return s.baseState.gasLimit
 }
 
 // GetGenesis reads and unmarshals the genesis.json file
@@ -240,7 +240,7 @@ func (s *State) GetAuthorisingABI() string {
 
 // GetSigner returns the state's signer
 func (s *State) GetSigner() ethTypes.Signer {
-	return s.main.signer
+	return s.baseState.signer
 }
 
 /*******************************************************************************
@@ -277,7 +277,7 @@ func (s *State) GetBalance(addr common.Address, fromPool bool) *big.Int {
 	if fromPool {
 		return s.txPool.GetBalance(addr)
 	}
-	return s.main.GetBalance(addr)
+	return s.baseState.GetBalance(addr)
 }
 
 // GetNonce returns an account's nonce
@@ -285,7 +285,7 @@ func (s *State) GetNonce(addr common.Address, fromPool bool) uint64 {
 	if fromPool {
 		return s.txPool.GetNonce(addr)
 	}
-	return s.main.GetNonce(addr)
+	return s.baseState.GetNonce(addr)
 }
 
 // GetCode returns an account's bytecode
@@ -293,7 +293,7 @@ func (s *State) GetCode(addr common.Address, fromPool bool) []byte {
 	if fromPool {
 		return s.txPool.GetCode(addr)
 	}
-	return s.main.GetCode(addr)
+	return s.baseState.GetCode(addr)
 }
 
 // GetStorage returns an account's storage
@@ -301,7 +301,7 @@ func (s *State) GetStorage(addr common.Address, fromPool bool) map[string]string
 	if fromPool {
 		return s.txPool.GetStorage(addr)
 	}
-	return s.main.GetStorage(addr)
+	return s.baseState.GetStorage(addr)
 }
 
 // GetTransaction fetches a transaction from the WAS
@@ -376,7 +376,7 @@ type CurrentGenesis struct {
 // DumpAllAccounts outputs JSON of all accounts
 func (s *State) DumpAllAccounts() []byte {
 
-	dump := CurrentGenesis{Alloc: s.main.stateDB.RawDump().Accounts,
+	dump := CurrentGenesis{Alloc: s.baseState.stateDB.RawDump().Accounts,
 		Poa: bcommon.PoaMap{
 			Address: POAADDR.Hex(),
 			Balance: s.GetBalance(POAADDR, false).Text(10),
