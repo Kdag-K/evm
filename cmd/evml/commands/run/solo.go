@@ -25,13 +25,13 @@ var genesisTemplate = `
 
 var genesisAddress string
 
-//AddSoloFlags adds flags to the Solo command
+// AddSoloFlags adds flags to the Solo command.
 func AddSoloFlags(cmd *cobra.Command) {
 	cmd.Flags().StringVar(&genesisAddress, "genesisaddress", "", "create genesis file specifying pre-funded account with given address")
 	viper.BindPFlags(cmd.Flags())
 }
 
-//NewSoloCmd returns the command that starts EVM-Lite with Solo consensus
+// NewSoloCmd returns the command that starts EVM-Lite with Solo consensus.
 func NewSoloCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "solo",
@@ -71,6 +71,7 @@ func createGenesis(genesisFile, genesisAddr string) error {
 	t, err := t.Parse(genesisTemplate) // parsing of template string
 	if err != nil {
 		logger.WithError(err).Error("Parsing genesis template")
+
 		return err
 	}
 
@@ -86,6 +87,7 @@ func createGenesis(genesisFile, genesisAddr string) error {
 	f, err := os.OpenFile(genesisFile, os.O_RDWR|os.O_CREATE, 0666)
 	if err != nil {
 		logger.WithError(err).Errorf("Creating file %s", genesisFile)
+
 		return err
 	}
 
