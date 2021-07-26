@@ -3,7 +3,6 @@ module github.com/Kdag-K/evm
 go 1.15
 
 require (
-	github.com/Kdag-K/evm v0.0.0-20201023010420-9387f3fcd2f1
 	github.com/allegro/bigcache v1.2.1 // indirect
 	github.com/aristanetworks/goarista v0.0.0-20210107181124-fad53805024e // indirect
 	github.com/btcsuite/btcd v0.21.0-beta // indirect
@@ -18,8 +17,8 @@ require (
 	github.com/rjeczalik/notify v0.9.2 // indirect
 	github.com/rs/cors v1.7.0 // indirect
 	github.com/sirupsen/logrus v1.7.0
-	github.com/spf13/cobra v1.1.1
-	github.com/spf13/viper v1.7.1
+	github.com/spf13/cobra v1.1.3
+	github.com/spf13/viper v1.8.0
 	github.com/syndtr/goleveldb v1.0.0 // indirect
 	github.com/x-cray/logrus-prefixed-formatter v0.5.2
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
