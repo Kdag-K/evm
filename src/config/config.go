@@ -13,14 +13,15 @@ import (
 
 var (
 	// Base
-	defaultLogLevel    = "debug"
-	defaultDataDir     = defaultHomeDir()
-	defaultEthAPIAddr  = ":8080"
-	defaultCache       = 128
-	defaultEthDir      = fmt.Sprintf("%s/eth", defaultDataDir)
-	defaultGenesisFile = fmt.Sprintf("%s/genesis.json", defaultEthDir)
-	defaultDbFile      = fmt.Sprintf("%s/chaindata", defaultEthDir)
-	defaultMinGasPrice = "0"
+	defaultLogLevel       = "debug"
+	defaultDataDir        = defaultHomeDir()
+	defaultEthAPIAddr     = ":8080"
+	defaultCache          = 128
+	defaultEthDir         = fmt.Sprintf("%s/eth", defaultDataDir)
+	defaultGenesisFile    = fmt.Sprintf("%s/genesis.json", defaultEthDir)
+	defaultDbFile         = fmt.Sprintf("%s/chaindata", defaultEthDir)
+	defaultMinGasPrice    = "0"
+	DefaultPrivateKeyFile = "priv_key"
 )
 
 // Config contains de configuration for an EVM-Lite node
