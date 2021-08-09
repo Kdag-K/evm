@@ -13,8 +13,8 @@ var (
 	logger = logrus.New()
 )
 
-//RunCmd is launches a node
-var RunCmd = &cobra.Command{
+// RunCmd is launches a node.
+var RunCmd = &cobra.Command{ //nolint:exhaustivestruct
 	Use:              "run",
 	Short:            "Run a node",
 	TraverseChildren: true,
@@ -35,42 +35,42 @@ var RunCmd = &cobra.Command{
 
 		config.SetDataDir(config.DataDir)
 
-		logger.WithFields(logrus.Fields{
-			"Base": config}).Debug("Config")
+		logger.WithFields(logrus.Fields{"Base": config}).Debug("Config")
 
 		return nil
 	},
 }
 
+//nolint:gochecknoinits
 func init() {
-	//Subcommands
+	// Subcommands
 	RunCmd.AddCommand(
 		NewSoloCmd())
 
-	//Base config
+	// Base config
 	RunCmd.PersistentFlags().StringP("datadir", "d", config.DataDir, "Top-level directory for configuration and data")
 	RunCmd.PersistentFlags().String("log", config.LogLevel, "debug, info, warn, error, fatal, panic")
 
-	//Eth config
+	// Eth config
 	RunCmd.PersistentFlags().String("eth.genesis", config.Genesis, "Location of genesis file")
 	RunCmd.PersistentFlags().String("eth.db", config.DbFile, "Eth database file")
 	RunCmd.PersistentFlags().String("eth.listen", config.EthAPIAddr, "Address of HTTP API service")
 	RunCmd.PersistentFlags().Int("eth.cache", config.Cache, "Megabytes of memory allocated to internal caching (min 16MB / database forced)")
-
 }
 
-//------------------------------------------------------------------------------
-//Retrieve the default environment configuration.
+// ---------------------------------------------
+// Retrieve the default environment configuration.
 func parseConfig() (*_config.Config, error) {
 	conf := _config.DefaultConfig()
 	err := viper.Unmarshal(conf)
 	if err != nil {
 		return nil, err
 	}
+
 	return conf, err
 }
 
-//Bind all flags and read the config into viper
+// Bind all flags and read the config into viper.
 func bindFlagsLoadViper(cmd *cobra.Command) error {
 	// cmd.Flags() includes flags from this command and all persistent flags from the parent
 	if err := viper.BindPFlags(cmd.Flags()); err != nil {
@@ -87,7 +87,6 @@ func bindFlagsLoadViper(cmd *cobra.Command) error {
 	} else if _, ok := err.(viper.ConfigFileNotFoundError); ok {
 		logger.Debugf("No config file found in %s", config.DataDir)
 	} else {
-
 		return err
 	}
 
