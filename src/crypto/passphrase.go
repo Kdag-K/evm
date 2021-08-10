@@ -3,7 +3,6 @@ package crypto
 import (
 	"fmt"
 	"io/ioutil"
-	"math/rand"
 	"strings"
 
 	"github.com/ethereum/go-ethereum/console"
@@ -47,16 +46,4 @@ func GetPassphrase(passwordFile string, confirmation bool) (string, error) {
 
 	// Otherwise prompt the user for the passphrase.
 	return PromptPassphrase(confirmation)
-}
-
-// RandomPassphrase generates a random passphrase
-func RandomPassphrase(n int) string {
-	const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,_"
-
-	b := make([]byte, n)
-
-	for i := range b {
-		b[i] = letterBytes[rand.Intn(len(letterBytes))]
-	}
-	return string(b)
 }
