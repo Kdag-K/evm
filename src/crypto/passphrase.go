@@ -1,14 +1,16 @@
 package crypto
 
 import (
+	"crypto/ecdsa"
 	"fmt"
 	"io/ioutil"
 	"strings"
 
+	"github.com/ethereum/go-ethereum/accounts/keystore"
 	"github.com/ethereum/go-ethereum/console"
 )
 
-const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,_"
+// const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,_"
 
 // PromptPassphrase prompts the user for a passphrase.  Set confirmation to true
 // to require the user to confirm the passphrase.
@@ -46,4 +48,26 @@ func GetPassphrase(passwordFile string, confirmation bool) (string, error) {
 
 	// Otherwise prompt the user for the passphrase.
 	return PromptPassphrase(confirmation)
+}
+
+// GetPrivateKey decrypts a keystore and returns the private key
+func GetPrivateKey(keyfilepath string, PasswordFile string) (*ecdsa.PrivateKey, error) {
+	// Read key from file.
+	keyjson, err := ioutil.ReadFile(keyfilepath)
+	if err != nil {
+		return nil, fmt.Errorf("Failed to read the keyfile at '%s': %v", keyfilepath, err)
+	}
+
+	// Decrypt key with passphrase.
+	passphrase, err := GetPassphrase(PasswordFile, false)
+	if err != nil {
+		return nil, err
+	}
+
+	key, err := keystore.DecryptKey(keyjson, passphrase)
+	if err != nil {
+		return nil, fmt.Errorf("Error decrypting key: %v", err)
+	}
+
+	return key.PrivateKey, nil
 }
