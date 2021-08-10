@@ -8,18 +8,20 @@ import (
 
 	"github.com/Kdag-K/evm/src/config"
 	"github.com/Kdag-K/evm/src/crypto"
-	
-	// "github.com/Kdag-K/evm/src/crypto"
+
 	eth_crypto "github.com/ethereum/go-ethereum/crypto"
 )
 
-GetKey looks in the keystore for a keyfile corresponding to the provided
-moniker. If it exists, it decrypts it and returns the private key. Otherwise,
-it returns an error
+// GetKey looks in the keystore for a keyfile corresponding to the provided
+// moniker. If it exists, it decrypts it and returns the private key. Otherwise,
+// it returns an error.
 func GetKey(keystore, moniker, passwordFile string) (*ecdsa.PrivateKey, error) {
 	keyfile := filepath.Join(keystore, moniker+".json")
 
 	privateKey, err := crypto.GetPrivateKey(keyfile, passwordFile)
+	if err != nil {
+		return nil, err
+	}
 
 	return privateKey, nil
 }
