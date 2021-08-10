@@ -9,7 +9,7 @@ import (
 	"github.com/Kdag-K/evm/src/config"
 	"github.com/Kdag-K/evm/src/crypto"
 
-	eth_crypto "github.com/ethereum/go-ethereum/crypto"
+	ethcrypto "github.com/ethereum/go-ethereum/crypto"
 )
 
 // GetKey looks in the keystore for a keyfile corresponding to the provided
@@ -30,7 +30,7 @@ func GetKey(keystore, moniker, passwordFile string) (*ecdsa.PrivateKey, error) {
 // a file with UNIX permissions 600.
 func DumpPrivKey(outDir string, privKey *ecdsa.PrivateKey) error {
 	const filePerm = 0o600
-	keyString := hex.EncodeToString(eth_crypto.FromECDSA(privKey))
+	keyString := hex.EncodeToString(ethcrypto.FromECDSA(privKey))
 
 	// The private key is written with 600 permissions because Babble would
 	// complain otherwise
