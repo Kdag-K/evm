@@ -9,11 +9,12 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethTypes "github.com/ethereum/go-ethereum/core/types"
+
 	"github.com/Kdag-K/evm/src/state"
 	"github.com/Kdag-K/evm/src/version"
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/sirupsen/logrus"
 
 	comm "github.com/Kdag-K/evm/src/common"
@@ -442,7 +443,6 @@ func exportHandler(w http.ResponseWriter, r *http.Request, m *Service) {
 //------------------------------------------------------------------------------
 
 func prepareCallMessage(args SendTxArgs) (*ethTypes.Message, error) {
-
 	// Create Call Message
 	// Set gasPrice and value to 0 because this is a readonly operation
 	msg := ethTypes.NewMessage(args.From,
@@ -455,5 +455,4 @@ func prepareCallMessage(args SendTxArgs) (*ethTypes.Message, error) {
 		false)
 
 	return &msg, nil
-
 }
