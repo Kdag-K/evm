@@ -18,6 +18,7 @@ require (
 	github.com/rs/cors v1.7.0 // indirect
 	github.com/sirupsen/logrus v1.7.0
 	github.com/spf13/cobra v1.1.3
+	github.com/palantir/stacktrace v0.0.0-20161112013806-78658fd2d177
 	github.com/spf13/viper v1.8.0
 	github.com/syndtr/goleveldb v1.0.0 // indirect
 	github.com/x-cray/logrus-prefixed-formatter v0.5.2
