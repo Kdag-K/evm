@@ -1,13 +1,13 @@
 package run
 
 import (
-	"fmt"
 	"html/template"
 	"os"
 	"path/filepath"
 
 	"github.com/Kdag-K/evm/src/consensus/solo"
 	"github.com/Kdag-K/evm/src/engine"
+	"github.com/palantir/stacktrace"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -37,7 +37,6 @@ func NewSoloCmd() *cobra.Command {
 		Use:   "solo",
 		Short: "Run the evm-lite node with Solo consensus (no consensus)",
 		PreRunE: func(cmd *cobra.Command, args []string) error {
-
 			config.SetDataDir(config.DataDir)
 
 			logger.WithFields(logrus.Fields{
@@ -61,7 +60,6 @@ func NewSoloCmd() *cobra.Command {
 }
 
 func createGenesis(genesisFile, genesisAddr string) error {
-
 	if _, err := os.Stat(genesisFile); err == nil {
 		logger.WithError(err).Error("Genesis file already exists. Cannot overwrite.")
 		return err
@@ -77,14 +75,14 @@ func createGenesis(genesisFile, genesisAddr string) error {
 
 	genDir := filepath.Dir(genesisFile)
 	if _, err := os.Stat(genDir); os.IsNotExist(err) {
-		err = os.MkdirAll(genDir, 0755)
+		err = os.MkdirAll(genDir, 0o755)
 		if err != nil {
 			logger.WithError(err).Error("Creating base directory of genesis file")
 			return err
 		}
 	}
 
-	f, err := os.OpenFile(genesisFile, os.O_RDWR|os.O_CREATE, 0666)
+	f, err := os.OpenFile(genesisFile, os.O_RDWR|os.O_CREATE, 0o666)
 	if err != nil {
 		logger.WithError(err).Errorf("Creating file %s", genesisFile)
 
@@ -95,11 +93,10 @@ func createGenesis(genesisFile, genesisAddr string) error {
 }
 
 func runSolo(cmd *cobra.Command, args []string) error {
-
 	solo := solo.NewSolo(logger)
 	engine, err := engine.NewEngine(*config, solo)
 	if err != nil {
-		return fmt.Errorf("Error building Engine: %s", err)
+		return stacktrace.NewError("Error building Engine: %v", err)
 	}
 
 	engine.Run()
