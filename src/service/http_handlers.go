@@ -392,8 +392,6 @@ func versionHandler(w http.ResponseWriter, r *http.Request, m *Service) {
 	w.Write(js)
 }
 
-//------------------------------------------------------------------------------
-
 /*
 GET /genesis
 returns: JSON Genesis
@@ -421,7 +419,7 @@ func genesisHandler(w http.ResponseWriter, r *http.Request, m *Service) {
 	w.Write(js)
 }
 
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 
 /*
 GET /export
@@ -440,7 +438,7 @@ func exportHandler(w http.ResponseWriter, r *http.Request, m *Service) {
 	w.Write(js)
 }
 
-//------------------------------------------------------------------------------
+// --------------------------------------------------
 
 func prepareCallMessage(args SendTxArgs) (*ethTypes.Message, error) {
 	// Create Call Message
