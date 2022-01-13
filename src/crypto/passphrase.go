@@ -4,13 +4,14 @@ import (
 	"crypto/ecdsa"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"strings"
-
+	
 	"github.com/ethereum/go-ethereum/accounts/keystore"
 	"github.com/ethereum/go-ethereum/console"
 )
 
-// const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,_"
+const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,_"
 
 // PromptPassphrase prompts the user for a passphrase.  Set confirmation to true
 // to require the user to confirm the passphrase.
@@ -19,7 +20,7 @@ func PromptPassphrase(confirmation bool) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("Failed to read passphrase: %v", err)
 	}
-
+	
 	if confirmation {
 		confirm, err := console.Stdin.PromptPassword("Repeat passphrase: ")
 		if err != nil {
@@ -29,7 +30,7 @@ func PromptPassphrase(confirmation bool) (string, error) {
 			return "", fmt.Errorf("Passphrases do not match")
 		}
 	}
-
+	
 	return passphrase, nil
 }
 
@@ -45,7 +46,7 @@ func GetPassphrase(passwordFile string, confirmation bool) (string, error) {
 		}
 		return strings.TrimRight(string(content), "\r\n"), nil
 	}
-
+	
 	// Otherwise prompt the user for the passphrase.
 	return PromptPassphrase(confirmation)
 }
@@ -57,17 +58,27 @@ func GetPrivateKey(keyfilepath string, PasswordFile string) (*ecdsa.PrivateKey, 
 	if err != nil {
 		return nil, fmt.Errorf("Failed to read the keyfile at '%s': %v", keyfilepath, err)
 	}
-
+	
 	// Decrypt key with passphrase.
 	passphrase, err := GetPassphrase(PasswordFile, false)
 	if err != nil {
 		return nil, err
 	}
-
+	
 	key, err := keystore.DecryptKey(keyjson, passphrase)
 	if err != nil {
 		return nil, fmt.Errorf("Error decrypting key: %v", err)
 	}
-
+	
 	return key.PrivateKey, nil
+}
+
+// RandomPassphrase generates a random passphrase.
+func RandomPassphrase(n int) string {
+	b := make([]byte, n)
+	
+	for i := range b {
+		b[i] = letterBytes[rand.Intn(len(letterBytes))]
+	}
+	return string(b)
 }

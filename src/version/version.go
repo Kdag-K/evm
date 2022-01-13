@@ -15,7 +15,7 @@ var (
 
 	//JSONVersion is set from the run command explicitly.
 	//This allows it to be set differently within
-	//monetd
+	//Knode
 	JSONVersion map[string]string
 )
 

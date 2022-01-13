@@ -11,7 +11,7 @@ import (
 
 type infoCallback func() (map[string]string, error)
 
-//Service controls the EVM-Lite endpoints
+// Service controls the EVM-Lite endpoints.
 type Service struct {
 	state       *state.State
 	submitCh    chan []byte
@@ -21,7 +21,7 @@ type Service struct {
 	logger      *logrus.Entry
 }
 
-//NewService is a factory method that returns a new instance of Service
+// NewService is a factory method that returns a new instance of Service.
 func NewService(apiAddr string,
 	state *state.State,
 	submitCh chan []byte,
@@ -37,19 +37,19 @@ func NewService(apiAddr string,
 	}
 }
 
-//Run starts the Service serving
+// Run starts the Service serving.
 func (m *Service) Run() {
 	m.logger.WithField("bind_address", m.apiAddr).Info("API")
 	m.serveAPI()
 }
 
-//GetSubmitCh returns the submit channel
+// GetSubmitCh returns the submit channel.
 func (m *Service) GetSubmitCh() chan []byte {
 	return m.submitCh
 }
 
-//SetInfoCallback the info callback. This is used to call the kdag stats
-//endpoint to populate the info endpoint
+// SetInfoCallback the info callback. This is used to call the kdag stats
+// endpoint to populate the info endpoint.
 func (m *Service) SetInfoCallback(f infoCallback) {
 	m.getInfo = f
 }
@@ -70,10 +70,10 @@ func (m *Service) serveAPI() {
 	http.HandleFunc("/genesis", m.makeHandler(genesisHandler))
 	http.HandleFunc("/version", m.makeHandler(versionHandler))
 
-	//TODO - this is experimental and placed on an endpoint for convenience.
+	// TODO - this is experimental and placed on an endpoint for convenience.
 	http.HandleFunc("/export", m.makeHandler(exportHandler))
 
-	// The call to ListenAndServe is a blocking operation
+	// The call to ListenAndServe is a blocking operation.
 	err := http.ListenAndServe(m.apiAddr, nil)
 	if err != nil {
 		m.logger.Error(err)

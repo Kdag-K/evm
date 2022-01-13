@@ -52,11 +52,8 @@ including [kdag](https://github.com/Kdag-K/kdag) .
 ## Usage
 
 EVM is a Go library, which is meant to be used in conjunction with a 
-consensus system like Babble, Tendermint, Raft etc.
+consensus system like kdag, Tendermint, Raft etc.
 
 This repo contains **Solo**, a bare-bones implementation of the consensus 
 interface, which is used for testing or launching a standalone node. It relays
 transactions directly from Service to State.
-
-
-

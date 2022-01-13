@@ -32,7 +32,7 @@ func DumpPrivKey(outDir string, privKey *ecdsa.PrivateKey) error {
 	const filePerm = 0o600
 	keyString := hex.EncodeToString(ethcrypto.FromECDSA(privKey))
 
-	// The private key is written with 600 permissions because Babble would
+	// The private key is written with 600 permissions because kdag would
 	// complain otherwise
 	return ioutil.WriteFile(
 		filepath.Join(outDir, config.DefaultPrivateKeyFile),
